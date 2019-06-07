@@ -37,7 +37,7 @@
             <div style="margin: 1em auto 0;" class="col-md-4 col-md-offset-6">
                 <div class="login-card panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Change Password</h3>
+                        <h3 class="panel-title">Change Contact</h3>
                     </div>
                     <div class="panel-body">
                         <form method="POST" action="<?php echo base_url('clients/updatecontact')?>">

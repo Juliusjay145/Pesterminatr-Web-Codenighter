@@ -30,7 +30,7 @@
       <div class="card"><br/>
         <div class="card-image">
         <center>
-          <img src="http://localhost/project/logo/tude.JPG" style="width: 150px; height: 150px;" class="rounded-circle">
+          <img src="http://localhost/project/upload/user.png" style="width: 150px; height: 150px;" class="rounded-circle">
         </center>  
         </div>
         <div class="card-content">

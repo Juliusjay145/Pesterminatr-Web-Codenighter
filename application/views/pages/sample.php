@@ -1,24 +1,16 @@
- <?php foreach ($pestcontrols->result() as $pest): ?>
-                  <?php echo $pest->pestcontrol_detail; ?>
-              <?php endforeach; ?></h5>    
-              <br/>
-              <h3>Our Services:</h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+    <iframe src="https://embed.waze.com/en/iframe?zoom=16&lat=10.2959&lon=123.8972&pin=1&desc=1"
+            width="100%" height="350">
+              
+    </iframe>
 
-             <?php foreach($services->result() as $service): ?>
-                    <?php foreach($getpest as $pest): ?>
-                      <h3><?php 
-                        if($service->pestcontrol_id == $pest['pestcontrol_id']):
-                            echo $service->service_name;
-                        ?>
-                      
-                       <br/>
+</body>
+</html>
 
 
-        
-                    <?php endif; ?></h3>
-                    <?php endforeach; ?>  
-                  <?php endforeach; ?>
-
-                   <?php foreach($getpest as $pest): ?>
-              <?php echo $pest['pestcontrol_name']; ?>
-             <?php endforeach; ?>   
+          

@@ -6,18 +6,8 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <a class="navbar-brand" href="<?php echo base_url('clients/home'); ?>">Pesterminatr</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Contact</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Address</a>
-      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-    <img src="http://localhost/project/logo/tude.JPG" width="30x" height="30px" class="rounded-circle">
       <?php foreach($clients->result() as $client): ?>
 			     
 			     <?php
@@ -37,7 +27,7 @@
             <div style="margin: 1em auto 0;" class="col-md-4 col-md-offset-6">
                 <div class="login-card panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Change Username</h3>
+                        <h3 class="panel-title">Change Name</h3>
                     </div>
                     <div class="panel-body">
                         <form method="POST" action="<?php echo base_url('clients/updatename')?>">

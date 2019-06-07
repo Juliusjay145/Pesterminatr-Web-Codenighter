@@ -79,7 +79,7 @@
                                     <input class="form-control" name="txtcontact" type="text" value="<?php echo $update[0]['client_contact']; ?>" disabled><br/>  
 
                                     <select name="status" class="form-control">
-                                        <option value="Activate">Active</option>
+                                        <option value="Active">Active</option>
                                         <option value="Deactivate">Deactivate</option>
                                     </select>
                                 </div>

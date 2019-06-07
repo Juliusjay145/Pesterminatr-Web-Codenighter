@@ -12,7 +12,7 @@ class PestControlModel extends CI_Model{
 	public function insert($data)
 	{
 		$this->db->insert($this->table, $data);
-		$this->db->insert_id();
+		// $this->db->insert_id();
 	}
 
 	public function auth($txtusername, $txtpassword)
@@ -29,15 +29,41 @@ class PestControlModel extends CI_Model{
 		return $data->result_array();
 	}
 
+	public function get_pestcontrol5()
+	{
+		$data = $this->db->get($this->table);
+		return $data->result_array();
+	}
+
 	public function get_pestcontrol_id($pestcontrol_id){
 		$query = $this->db->get_where('pestcontrol', array('pestcontrol_id' => $pestcontrol_id));
 		return $query->result_array();
+	}
+
+	public function get_pestcontrol2($id)
+	{
+		$this->db->where("pestcontrol_id", $id);
+		$data = $this->db->get($this->table);
+		return $data->result_array();
+	}
+
+	public function get_pestcontrol_profile($id)
+	{
+		$this->db->where("pestcontrol_id",$id);
+		$data = $this->db->get($this->table);
+		return $data->result_array();
+	}
+
+	public function update_pestcontrol($id, $data){
+		$this->db->where('pestcontrol_id', $id);
+		$this->db->update($this->table, $data);
 	}
 
 	public function update($data){
 		$this->db->where('pestcontrol_id', $this->input->post('pestcontrol_id'));
 		return $this->db->update($this->table, $data);
 	}
+
 
 	public function count_providers()
 	{

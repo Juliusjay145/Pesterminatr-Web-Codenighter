@@ -21,6 +21,9 @@ class Service extends CI_Controller
 
 		$data = $this->PestControlModel->get_pestcontrol();
 		$services = $this->ServiceModel->get_services();
+
+		$image = $this->input->post('service_logo');
+        $path = "http://10.0.2.2/project/upload/". $image;
 			
 
 				foreach($data as $d):
@@ -36,9 +39,12 @@ class Service extends CI_Controller
 					$service->service_name;
 		endif;		
 		endforeach;			
-		endforeach;			
+		endforeach;
+
+
+
 						
-			if($txtservice != $service->service_name){
+			if($txtservice != $service->service_name && $txtprice > 1){
 
 					$add = array(
 
@@ -46,6 +52,8 @@ class Service extends CI_Controller
 				'service_detail' => $txtdetails,
 				'service_type' => $servicetype,
 				'service_price' => $txtprice,
+				'logo' => $image,
+				'path_image' => $path,
 				'pestcontrol_id' => $id
 
 				);
@@ -55,6 +63,19 @@ class Service extends CI_Controller
 
 			}					
 	             else{
+
+	             	if(strlen($txtservice) < 1)
+	             	{
+	             		$this->_displayAlert('Service Name is not valid','PestControl/home');
+	             	}
+
+	             	if($txtprice <= 0)
+					{
+						$this->_displayAlert('Service Price will not accept below 0','PestControl/home');
+					}
+
+
+					
 
 
 					foreach($data as $d):
@@ -66,6 +87,8 @@ class Service extends CI_Controller
 		      				}			
 						endforeach;
 					endforeach;
+
+					
 
 	            }
 
@@ -85,6 +108,16 @@ class Service extends CI_Controller
 		$this->load->view('template/footer_view');
 	}
 
+	// public function update($service_id)
+	// {
+	// 	$data['title'] = "Update Services";
+	// 	$data['pestcontrols'] = $this->PestControlModel->get_pestcontrol();
+	// 	$data['updateService'] = $this->ServiceModel->get_service_id($service_id);
+	// 	//$this->load->view('template/header_view', $data);
+	// 	$this->load->view('pages/updateser_view', $data);
+	// 	//$this->load->view('template/footer_view');
+	// }
+
 	public function editService()
 	{
 		$txtservice =  $this->input->post('txtservice');
@@ -102,7 +135,14 @@ class Service extends CI_Controller
 			
 		endforeach;
 
-		$update = array(
+		if($txtprice <= 0)
+		{
+			$this->_displayAlert('Service Price will not accept below 0','PestControl/home');
+		}
+
+		else
+		{
+			$update = array(
 
 			'service_name' => $txtservice,
 			'service_detail' => $txtdetails,
@@ -112,9 +152,27 @@ class Service extends CI_Controller
 
 			);
 
-		$this->ServiceModel->update($update);
-		$this->_displayAlert('Successfully changed','pestcontrol/home');
+			$this->ServiceModel->update($update);
+			$this->_displayAlert('Successfully changed','pestcontrol/home');
+		}	
 
+		
+
+
+
+	}
+
+	public function soft_delete()
+	{
+		$id = $this->uri->segment(3);
+        $data = array(
+
+            'soft_delete' => 0
+
+            );
+        $this->ServiceModel->updatedelete($data, $id);
+        $this->_displayAlert('Service Delete','PestControl/home', $data);
+        //redirect(base_url('pestcontrol/service_detail'));
 	}
 
 

@@ -12,6 +12,17 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('../materialize/css/materialize.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('../materialize/css/style.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('../materialize/css/custom/custom.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('../vendors/flag-icon/css/flag-icon.min.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('../vendors/perfect-scrollbar/perfect-scrollbar.css')?>">
 </head>
 
 <body style="background: #eaebef;">
+
+
+
+

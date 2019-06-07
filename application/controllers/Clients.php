@@ -10,7 +10,12 @@ Class Clients extends CI_Controller{
 		$this->load->model('ServiceModel');
 		$this->load->model('PestControlModel');
 		$this->load->library('Session');
+		$this->load->model('CommentModel');
 		$this->load->model('ClientLogsModel');
+		$this->load->model('CommercialModel');
+		$this->load->model('ReplyCommentModel');
+		$this->load->model('ResidentialModel');
+		$this->load->model('ServiceModel');
 	}
 
 	public function index()
@@ -56,6 +61,9 @@ Class Clients extends CI_Controller{
 		$data['title'] = "Home Client";
 		$data['clients'] = $this->ClientModel->get_client();
 		$data['pestcontrols'] = $this->PestControlModel->get_pestcontrol();
+		$data['residentials'] = $this->ResidentialModel->get_residential();
+    	$data['commercials'] = $this->CommercialModel->get_commercial();
+    	//$data['c'] = $this->ClientModel->get_client_id($client_id);
 		$this->load->view('template/header_view', $data);
 		$this->load->view('pages/clienthome_view', $data);
 		$this->load->view('template/footer_view');
@@ -76,32 +84,142 @@ Class Clients extends CI_Controller{
         $data['pestcontrols'] = $this->PestControlModel->get_pestcontrol();
         $data['services'] = $this->ServiceModel->get_services();
         $data['clients'] = $this->ClientModel->get_client();
+        $data['comments'] = $this->CommentModel->get_comment();
+        $data['replys'] = $this->ReplyCommentModel->get_reply_comment();
         $this->load->view('template/header_view', $data);
         $this->load->view('pages/showpestcontrol_view');
         $this->load->view('template/footer_view');
     }
 
+    public function show_details($pestcontrol_id)
+    {
+        $data['title'] = "Pest Control Provider";
+        $data['getpest'] = $this->PestControlModel->get_pestcontrol_id($pestcontrol_id);
+        $data['pestcontrols'] = $this->PestControlModel->get_pestcontrol();
+        $data['services'] = $this->ServiceModel->get_services();
+        $data['clients'] = $this->ClientModel->get_client();
+        $this->load->view('template/header_view', $data);
+        $this->load->view('pages/pestcontrolprofile_view');
+        $this->load->view('template/footer_view');
+    }
+
+    public function show_booking($client_id)
+    {
+    	$data['title'] = "My Booking Details";
+    	$data['residentials'] = $this->ResidentialModel->get_residential();
+    	$data['services'] = $this->ServiceModel->get_services();
+    	$data['commercials'] = $this->CommercialModel->get_commercial();
+    	$data['clients'] = $this->ClientModel->get_client_id($client_id);
+    	$this->load->view('template/header_view', $data);
+    	$this->load->view('pages/bookingdetails_view');
+    	$this->load->view('template/footer_view');
+    }
+
+     public function history_booking($client_id)
+    {
+    	$data['title'] = "History Details";
+    	$data['residentials'] = $this->ResidentialModel->get_residential8();
+    	$data['services'] = $this->ServiceModel->get_services();
+    	$data['commercials'] = $this->CommercialModel->get_commercial5();
+    	$data['clients'] = $this->ClientModel->get_client_id($client_id);
+    	$this->load->view('template/header_view', $data);
+    	$this->load->view('pages/clientsHistory_view');
+    	$this->load->view('template/footer_view');
+    }
+
+
+    public function update_detials($residential_id)
+    {
+    	$data['title'] = "Update Details";
+    	$data['residentials'] = $this->ResidentialModel->get_residential_id($residential_id);
+    	$data['clients'] = $this->ClientModel->get_client();
+    	$this->load->view('template/header_view', $data);
+    	$this->load->view('pages/updateDetails_view', $data);
+    	$this->load->view('template/footer_view', $data);
+    }
+
+    public function update_comdetials($commercial_id)
+    {
+    	$data['title'] = "Update Details";
+    	$data['commercials'] = $this->CommercialModel->get_commercial_id($commercial_id);
+    	$data['clients'] = $this->ClientModel->get_client();
+    	$this->load->view('template/header_view', $data);
+    	$this->load->view('pages/updateDetailsCommercial_view', $data);
+    	$this->load->view('template/footer_view', $data);
+    }
+
 	public function addClient()
 	{	
 		$name = $this->input->post('name');
+		$lastname = $this->input->post('lastname');
 		$txtaddress = $this->input->post('txtaddress');
 		$txtcontact = $this->input->post('txtcontact');
 		$txtusername = $this->input->post('txtusername');
 		$txtpassword = $this->input->post('txtpassword');
 
-		$add = array(
 
-			'client_name' => $name,
-			'client_address' => $txtaddress,
-			'client_contact' => $txtcontact,
-			'username' => $txtusername,
-			'password' => $txtpassword,
-			'user_type' => 'Client'
+		if(strlen($txtpassword) <= 5)
+		{
+			$this->_displayAlert('Password must be 6 minimum characters','clients/register');
+		}
+		else if(strlen($name) <= 5)
+		{
+			$this->_displayAlert('Name must be 6 minimum characters','clients/register');
+		}
+		else
+		{
+			$clients = $this->ClientModel->get_client();
 
-			);
+			foreach ($clients->result() as $c):
+				$c->username;
+				$c->client_name;
+			endforeach;
 
-		$this->ClientModel->insert($add);
-		$this->_displayAlert('Account Inerted','clients/index');
+			
+
+			if($txtusername != $c->username && $name != $c->client_name)
+			{
+				$add = array(
+
+				'client_name' => $name,
+				'client_lastname' => $lastname,
+				'client_address' => $txtaddress,
+				'client_contact' => $txtcontact,
+				'username' => $txtusername,
+				'password' => $txtpassword,
+				'user_type' => 'Client'
+
+				);
+
+				$this->ClientModel->insert($add);
+				$this->_displayAlert('Account Inerted','clients/index');
+			}
+
+			else
+			{
+				
+
+				foreach ($clients->result() as $c):
+					if($txtusername == $c->username)
+					{
+						$this->_displayAlert('Account already exist','clients/register');	
+					}
+					else if($name == $c->client_name)
+					{
+						$this->_displayAlert('Account already exist','clients/register');
+					}
+
+					
+				endforeach;
+
+					
+			}	
+		}
+
+
+		
+
+		
 	}
 
 	public function valid()
@@ -224,6 +342,48 @@ Class Clients extends CI_Controller{
 		$this->ClientModel->update($add);
 		$this->_displayAlert('Contact Number has been changed','clients/home');
 
+	}
+
+	public function updateDetails()
+	{
+		$txtproblem = $this->input->post('txtproblem');
+		$txtaddress = $this->input->post('txtaddress');
+		$txtdate = $this->input->post('txtdate');
+		$txttime = $this->input->post('txttime');
+		
+
+		$add = array(
+
+				'problem' => $txtproblem,
+				'residential_address' => $txtaddress,
+				'date' => $txtdate,
+				'time' => $txttime,
+
+
+			);
+
+		$this->ResidentialModel->update($add);
+	}
+
+	public function updateDetailsCom()
+	{
+		$txtproblem = $this->input->post('txtproblem');
+		$txtaddress = $this->input->post('txtaddress');
+		$txtdate = $this->input->post('txtdate');
+		$txttime = $this->input->post('txttime');
+		
+
+		$add = array(
+
+				'problem' => $txtproblem,
+				'company_address' => $txtaddress,
+				'date' => $txtdate,
+				'time' => $txttime,
+
+
+			);
+
+		$this->ResidentialModel->update($add);
 	}
 
 	public function logout()

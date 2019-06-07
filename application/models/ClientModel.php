@@ -12,7 +12,7 @@ class ClientModel extends CI_Model{
 	public function insert($data)
 	{
 		$this->db->insert($this->table, $data);
-		$this->db->insert_id();
+		// $this->db->insert_id();
 	}
 
 	public function auth($txtusername, $txtpassword)
@@ -29,6 +29,19 @@ class ClientModel extends CI_Model{
 		return $data;
 	}
 
+	public function get_client2()
+	{
+		$data = $this->db->get($this->table);
+		return $data->result_array();
+	}
+
+	public function get_client3($id)
+	{
+		$this->db->where("client_id", $id);
+		$data = $this->db->get($this->table);
+		return $data->result_array();
+	}
+
 	public function get_client_id($client_id){
 		$query = $this->db->get_where('client', array('client_id' => $client_id));
 		return $query->result_array();
@@ -38,6 +51,14 @@ class ClientModel extends CI_Model{
 		$this->db->where('client_id', $this->input->post('client_id'));
 		return $this->db->update($this->table, $data);
 	}
+
+	public function update_client($id, $data){
+		$this->db->where('client_id', $id);
+		$this->db->update($this->table, $data);
+	}
+
+	
+
 
 	public function count_clients()
 	{

@@ -10,6 +10,8 @@ class Admin extends CI_Controller
 		$this->load->model('AdminModel');
 		$this->load->model('ClientModel');
 		$this->load->model('PestControlModel');
+		$this->load->model('ResidentialModel');
+		$this->load->model('CommentModel');
 		$this->load->library('Session');
 	}
 
@@ -56,6 +58,24 @@ class Admin extends CI_Controller
 		$this->load->view('template/footer_view');	
 	}
 
+	public function list_history()
+	{
+		$data['pestcontrols'] = $this->PestControlModel->get_pestcontrol();
+		$data['residential'] = $this->ResidentialModel->get_residential4();
+		$this->load->view('template/header_view', $data);
+		$this->load->view('pages/viewbookingHistory_view');
+		$this->load->view('template/footer_view');
+	}
+
+	public function listfeedback()
+	{
+		$data['title'] = "Admin Home";
+		$data['comments'] = $this->CommentModel->get_comment();
+		$this->load->view('template/header_view', $data);
+		$this->load->view('pages/listfeedback_view');
+		$this->load->view('template/footer_view');	
+	}
+
 	public function updateproviders($pestcontrol_id)
 	{
 		$data['title'] = "Admin Update Pest Control Providers";
@@ -76,6 +96,15 @@ class Admin extends CI_Controller
 		$this->load->view('template/header_view', $data);
 		$this->load->view('pages/AdminUpdateClient_view');
 		$this->load->view('template/footer_view');	
+	}
+
+	public function updateAdmin($admin_id)
+	{
+		$data['title'] = "Admin Update Account";
+		$data['updateAdmin'] = $this->AdminModel->get_admin_id($admin_id);
+		$this->load->view('template/header_view', $data);
+		$this->load->view('pages/AdminUpdateAccount_view');
+		$this->load->view('template/footer_view');
 	}
 
 	public function valid()
@@ -134,6 +163,37 @@ class Admin extends CI_Controller
 		$this->ClientModel->update($add);
 		$this->_displayAlert('Successfully Updated','admin/home');
 	}
+
+	public function updateAccount()
+	{
+		$name = $this->input->post('txtname');
+		$username = $this->input->post('txtusername');
+		$password = $this->input->post('txtpassword');
+		$retype = $this->input->post('txtretypepass');
+
+		if($password != $retype)
+		{
+			echo "Password must be match";
+		}
+		else
+		{
+			$add = array(
+
+			'admin_name' => $name,
+			'username' => $username,
+			'password' => $password
+
+			);
+
+			$this->AdminModel->update2($add);
+		}
+
+
+		
+
+		
+	}
+
 
 	public function logout()
     {

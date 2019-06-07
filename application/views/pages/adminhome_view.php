@@ -38,6 +38,7 @@
 			     	if($this->session->userdata('username') == $admin->username)
 			     	{
 			     		echo $admin->admin_name;
+			     		$admin->admin_id;
 			     	}
 			     ?>
 
@@ -53,7 +54,8 @@
 	    <li class="list-group-item"><a href="<?php echo base_url('admin/listusers'); ?>">List of Clients</a> <span class="new badge blue"><?php echo $clients; ?></span></li>
 	    <li class="list-group-item"><a href="<?php echo base_url('admin/listproviders'); ?>">List of Pest Control Provider</a> <span class="new badge blue"><?php echo $providers; ?></span></li>
 	    <li class="list-group-item"><a href="">Reports</a> <span class="badge">0</span></li>
-	    <li class="list-group-item"><a href="">Account Settings</a> </li>
+	    <li class="list-group-item"><a href="<?php echo base_url('admin/listfeedback')?>/<?php echo $admin->admin_id?>">Feedback</a> </li>
+	    <li class="list-group-item"><a href="<?php echo base_url('admin/updateAdmin')?>/<?php echo $admin->admin_id?>">Manage Account</a> </li>
 	  </ul>
 	  <div class="card-body">
 	    <a href="<?php echo base_url('admin/logout'); ?>" class="card-link">Logout</a>
